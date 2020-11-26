@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Adatbazisok</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+
+</head>
+<body class="myclass1">
+
+<h1>Adatbázisok - Bank</h1>
+
+<br/>
+
+<h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">Bank szerkesztése</h3>
+
+<br/>
+<br/>
+
+<form class="myform" style="width:80%;" th:action="@{/edit_bank}" th:object="${editbank}" method="POST">
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="id" class="sr-only">Bank név</label>
+      <input th:field="*{id}" type="text" class="form-control" id="id" placeholder="Bank név" readonly>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="name" class="sr-only">Bank név</label>
+      <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Bank név">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="bankcity" class="sr-only">Város</label>
+      <input th:field="*{city}" type="text" class="form-control" id="bankcity" placeholder="Város">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-warning mb-2">Mentés</button>
+</form>
+
+<button class="btn btn-warning bottomdiv">
+  <a href="/home">
+    Vissza a főoldalra
+  </a>
+</button>
+</body>
+</html>

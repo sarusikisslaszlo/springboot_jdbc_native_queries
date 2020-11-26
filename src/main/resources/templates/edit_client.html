@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Adatbazisok</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+
+</head>
+<body class="myclass1">
+
+<h1>Adatbázisok - Bank</h1>
+
+<br/>
+
+<h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">Ügyfél adatainak szerkesztése</h3>
+
+<br/>
+<br/>
+
+<form class="myform" style="width:80%;" th:action="@{/edit_client}" th:object="${editclient}" method="POST">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="idNum" class="sr-only">Személyi szám</label>
+      <input th:field="*{idNum}" type="text" class="form-control" id="idNum" placeholder="Személyi szám" readonly>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="asdname" class="sr-only">Név</label>
+      <input th:field="*{name}" type="text" class="form-control" id="asdname" placeholder="Név">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="date" class="sr-only">Születési dátum</label>
+      <input th:field="*{bornDate}" type="date" class="form-control" id="date" placeholder="Születési dátum">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="motherName" class="sr-only">Anyja neve</label>
+      <input th:field="*{motherName}" type="text" class="form-control" id="motherName" placeholder="Anyja neve">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="clientcity" class="sr-only">Város</label>
+      <input th:field="*{city}" type="text" class="form-control" id="clientcity" placeholder="Város">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="clientzipCode" class="sr-only">Irányítószám</label>
+      <input th:field="*{zipCode}" type="number" class="form-control" id="clientzipCode" placeholder="Irányítószám">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="clientaddress" class="sr-only">Utca/házszám</label>
+      <input th:field="*{street}" type="text" class="form-control" id="clientaddress" placeholder="Utca/házszám">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-warning mb-2">Mentés</button>
+</form>
+
+<button class="btn btn-warning bottomdiv">
+  <a href="/home">
+    Vissza a főoldalra
+  </a>
+</button>
+</body>
+</html>

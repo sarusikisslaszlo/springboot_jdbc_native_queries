@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Adatbazisok</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+
+</head>
+<body class="myclass1">
+
+<h1>Adatbázisok - Bank</h1>
+
+<br/>
+
+<h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">Folyószámla szerkesztése</h3>
+
+<br/>
+<br/>
+
+<form class="myform" style="width:80%;" th:action="@{/edit_banka}" th:object="${editankaccount}" method="POST">
+  <div class="form-group">
+    <label for="accountNumber" class="sr-only">Számlaszám</label>
+    <input th:field="*{accountNumber}" type="text" class="form-control" id="accountNumber" placeholder="Számlaszám" readonly>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="balance" class="sr-only">Egyenleg</label>
+      <input th:field="*{balance}" type="number" class="form-control" id="balance" placeholder="Egyenleg">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="type" class="sr-only">Tipus</label>
+      <input th:field="*{type}" type="text" class="form-control" id="type" placeholder="Tipus">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="client" class="sr-only">Ügyfél</label>
+      <select th:field="*{ugyfelId}" id="client" class="form-control">
+         <option th:each="client : ${client}"
+                 th:value="${client.idNum}"
+                 th:text="${client.idNum}">
+      </option>
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="bank" class="sr-only">Ügyfél</label>
+      <select th:field="*{bankId}" id="bank" class="form-control">
+         <option th:each="bank : ${bank}"
+                 th:value="${bank.id}"
+                 th:text="${bank.id}">
+      </option>
+      </select>
+    </div>
+  </div>
+  <br/>
+  <button type="submit" class="btn btn-warning mb-2">Mentés</button>
+  <br/>
+</form>
+
+<button class="btn btn-warning bottomdiv">
+  <a href="/home">
+    Vissza a főoldalra
+  </a>
+</button>
+</body>
+</html>

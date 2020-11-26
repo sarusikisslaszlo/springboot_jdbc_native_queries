@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Adatbazisok</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+
+</head>
+<body class="myclass1">
+
+<h1>Adatbázisok - Bank</h1>
+
+<br/>
+
+<h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">Tranzakció szerkesztése</h3>
+
+<br/>
+<br/>
+
+<form class="myform" style="width:80%;" th:action="@{/edit_transaction}" th:object="${edittransaction}" method="POST">
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="id" class="sr-only">Azonosító</label>
+      <input th:field="*{id}" type="number" class="form-control" id="id" placeholder="Azonosító" readonly>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="amount" class="sr-only">Összeg</label>
+      <input th:field="*{amount}" type="number" class="form-control" id="amount" placeholder="Összeg">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="dateTime" class="sr-only">Időpont</label>
+      <input th:field="*{dateTime}" type="date" class="form-control" id="dateTime" placeholder="Időpont">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="fromClient" class="sr-only">Kezdeményező</label>
+      <input th:field="*{fromClient}" type="text" class="form-control" id="fromClient" placeholder="Kezdeményező">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="toClient" class="sr-only">Kedvezményezett</label>
+      <input th:field="*{toClient}" type="text" class="form-control" id="toClient" placeholder="Kedvezményezett">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="accountNum" class="sr-only">Ügyfél</label>
+    <select th:field="*{accountNum}" id="accountNum" class="form-control">
+       <option th:each="bankAccount : ${bankAccount}"
+               th:value="${bankAccount.accountNumber}"
+               th:text="${bankAccount.accountNumber}">
+    </option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-warning mb-2">Mentés</button>
+</form>
+
+<button class="btn btn-warning bottomdiv">
+  <a href="/home">
+    Vissza a főoldalra
+  </a>
+</button>
+</body>
+</html>

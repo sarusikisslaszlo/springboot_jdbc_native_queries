@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Adatbazisok</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+
+</head>
+<body class="myclass1">
+
+<h1>Adatbázisok - Bank</h1>
+<br/>
+<h2 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">INFO! A héten az összes tranzakciós összeg átlagát meghaladó utalási összeg darabszáma: <h1 th:text="${avg}"></h1></h2>
+<br/>
+<h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">Folyószámlák</h3>
+<br/>
+<div>
+  <div>
+    <form class="form-inline myform" style="width:80%;" th:action="@{/save/banka}" th:object="${newbankaccount}" method="POST">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="accountNumber" class="sr-only">Számlaszám</label>
+        <input th:field="*{accountNumber}" type="text" class="form-control" id="accountNumber" placeholder="Számlaszám" required>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="balance" class="sr-only">Egyenleg</label>
+        <input th:field="*{balance}" type="number" class="form-control" id="balance" placeholder="Egyenleg">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="type" class="sr-only">Tipus</label>
+        <input th:field="*{type}" type="text" class="form-control" id="type" placeholder="Tipus">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="client" class="sr-only">Ügyfél</label>
+        <select th:field="*{ugyfelId}" id="client" class="form-control">
+           <option th:each="client : ${client}"
+                    th:value="${client.idNum}"
+                    th:text="${client.idNum}">
+          </option>
+        </select>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="bank" class="sr-only">Ügyfél</label>
+        <select th:field="*{bankId}" id="bank" class="form-control">
+           <option th:each="bank : ${bank}"
+                   th:value="${bank.id}"
+                   th:text="${bank.id}">
+        </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-warning mb-2">Hozzáadás</button>
+    </form>
+  </div>
+  <br/>
+  <table class="mytable" style="width:80%;">
+    <thead>
+      <tr>
+        <th>Számlaszám</th>
+        <th>Egyenleg</th>
+        <th>Tipus</th>
+        <th>Ügyfél azonosító</th>
+        <th>Bank azonosító</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="bankaccount : ${bankAccount}">
+        <td th:text="${bankaccount.accountNumber}"></td>
+        <td th:text="${bankaccount.balance}"></td>
+        <td th:text="${bankaccount.type}"></td>
+        <td th:text="${bankaccount.ugyfelId}"></td>
+        <td th:text="${bankaccount.bankId}"></td>
+        <td><a class="btn btn-primary" th:href="@{/edit/banka/{id}(id=${bankaccount.accountNumber})}">
+          <i><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></i>
+        </a></td>
+        <td>
+          <a class="btn btn-danger" th:href="@{/delete/banka/{id}(id=${bankaccount.accountNumber})}">
+          <i><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg></i>
+        </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  <h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">Bankok</h3>
+  <br/>
+  <div>
+    <form class="form-inline myform" style="width:80%;" th:action="@{/save/bank}" th:object="${newbank}" method="POST">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="name" class="sr-only">Bank név</label>
+        <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Bank név">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="bankcity" class="sr-only">Város</label>
+        <input th:field="*{city}" type="text" class="form-control" id="bankcity" placeholder="Város">
+      </div>
+      <button type="submit" class="btn btn-warning mb-2">Hozzáadás</button>
+    </form>
+  </div>
+  <br/>
+  <table class="mytable" style="width:80%;">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Banknév</th>
+      <th>Város</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="bank : ${bank}">
+      <td th:text="${bank.id}"></td>
+      <td th:text="${bank.name}"></td>
+      <td th:text="${bank.city}"></td>
+      <td><a class="btn btn-primary" th:href="@{/edit/bank/{id}(id=${bank.id})}">
+        <i><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+        </svg></i>
+      </a></td>
+      <td>
+        <a class="btn btn-danger" th:href="@{/delete/bank/{id}(id=${bank.id})}">
+          <i><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg></i>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <br/>
+  <h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">Ügyfelek</h3>
+  <br/>
+  <div>
+    <form class="form-inline myform" style="width:80%;" th:action="@{/save/client}" th:object="${newclient}" method="POST">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="idNum" class="sr-only">Személyi szám</label>
+        <input th:field="*{idNum}" type="text" class="form-control" id="idNum" placeholder="Személyi szám" required>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="asdname" class="sr-only">Név</label>
+        <input th:field="*{name}" type="text" class="form-control" id="asdname" placeholder="Név">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="date" class="sr-only">Születési dátum</label>
+        <input th:field="*{bornDate}" type="date" class="form-control" id="date" placeholder="Születési dátum" required>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="motherName" class="sr-only">Anyja neve</label>
+        <input th:field="*{motherName}" type="text" class="form-control" id="motherName" placeholder="Anyja neve">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="clientcity" class="sr-only">Város</label>
+        <input th:field="*{city}" type="text" class="form-control" id="clientcity" placeholder="Város">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="clientzipCode" class="sr-only">Irányítószám</label>
+        <input th:field="*{zipCode}" type="number" class="form-control" id="clientzipCode" placeholder="Irányítószám">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="clientaddress" class="sr-only">Utca/házszám</label>
+        <input th:field="*{street}" type="text" class="form-control" id="clientaddress" placeholder="Utca/házszám">
+      </div>
+      <button type="submit" class="btn btn-warning mb-2">Hozzáadás</button>
+    </form>
+  </div>
+  <br/>
+  <table class="mytable" style="width:80%;">
+    <thead>
+    <tr>
+      <th>Személyi igazolvány szám</th>
+      <th>Név</th>
+      <th>Születési dátum</th>
+      <th>Anyja neve</th>
+      <th>Város</th>
+      <th>Irányítószám</th>
+      <th>Utca/házszám</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="client : ${client}">
+      <td th:text="${client.idNum}"></td>
+      <td th:text="${client.name}"></td>
+      <td th:text="${client.bornDate}"></td>
+      <td th:text="${client.motherName}"></td>
+      <td th:text="${client.city}"></td>
+      <td th:text="${client.zipCode}"></td>
+      <td th:text="${client.street}"></td>
+      <td><a class="btn btn-primary" th:href="@{/edit/client/{id}(id=${client.idNum})}">
+        <i><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+        </svg></i>
+      </a></td>
+      <td>
+        <a class="btn btn-danger" th:href="@{/delete/client/{id}(id=${client.idNum})}">
+          <i><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg></i>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <br/>
+  <h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">Tranzakciók</h3>
+  <br/>
+  <div>
+    <form class="form-inline myform" style="width:80%;" th:action="@{/save/transaction}" th:object="${newtransaction}" method="POST">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="amount" class="sr-only">Összeg</label>
+        <input th:field="*{amount}" type="number" class="form-control" id="amount" placeholder="Összeg">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="fromClient" class="sr-only">Kezdeményező</label>
+        <input th:field="*{fromClient}" type="text" class="form-control" id="fromClient" placeholder="Kezdeményező">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="toClient" class="sr-only">Kedvezményezett</label>
+        <input th:field="*{toClient}" type="text" class="form-control" id="toClient" placeholder="Kedvezményezett">
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="dateTime" class="sr-only">Időpont</label>
+        <input th:field="*{dateTime}" type="date" class="form-control" id="dateTime" placeholder="Időpont" required>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="accountNum" class="sr-only">Ügyfél</label>
+        <select th:field="*{accountNum}" id="accountNum" class="form-control">
+           <option th:each="bankAccount : ${bankAccount}"
+                   th:value="${bankAccount.accountNumber}"
+                   th:text="${bankAccount.accountNumber}">
+        </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-warning mb-2">Hozzáadás</button>
+    </form>
+  </div>
+  <br/>
+  <table class="mytable" style="width:80%;">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Összeg</th>
+      <th>Kezdeményező</th>
+      <th>Fogadó</th>
+      <th>Időpont</th>
+      <th>Számlaszám</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="transaction : ${transaction}">
+      <td th:text="${transaction.id}"></td>
+      <td th:text="${transaction.amount}"></td>
+      <td th:text="${transaction.fromClient}"></td>
+      <td th:text="${transaction.toClient}"></td>
+      <td th:text="${transaction.dateTime}"></td>
+      <td th:text="${transaction.accountNum}"></td>
+      <td><a class="btn btn-primary" th:href="@{/edit/transaction/{id}(id=${transaction.id})}">
+        <i><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+        </svg></i>
+      </a></td>
+      <td>
+        <a class="btn btn-danger" th:href="@{/delete/transaction/{id}(id=${transaction.id})}">
+          <i><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg></i>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <br/>
+  <h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">A bankonkban lévő teljes összeg forintban</h3>
+  <br/>
+  <table class="mytable" style="width:80%;">
+    <thead>
+    <tr>
+      <th>Bank Id</th>
+      <th>Egyenleg</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="listmin : ${listmin}">
+      <td th:text="${listmin[1]}"></td>
+      <td th:text="${listmin[0]}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <br/>
+  <h3 style="color:#E2B842;text-align:center;font-family:'Open Sans',sans-serif;">A bankonkban lévő teljes összeg forintban</h3>
+  <br/>
+  <table class="mytable" style="width:80%;">
+    <thead>
+    <tr>
+      <th>Bank Id</th>
+      <th>Egyenleg</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="listsum : ${listsum}">
+      <td th:text="${listsum[1]}"></td>
+      <td th:text="${listsum[0]}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
